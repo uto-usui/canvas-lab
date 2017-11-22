@@ -1,0 +1,263 @@
+@charset "UTF-8";
+/*
+#overview
+
+color
+
+common site color palette
+
+*/
+/*
+#colors
+
+@primary #d6101c
+@secondary #fd3a45
+@thirdry-color #00a0e9
+
+@white #fafafa
+@black #3f3a39
+@gray #424242
+@light-gray #d6d3cd
+*/
+@font-face {
+  font-family: "MyYuGothicM";
+  font-weight: normal;
+
+  src: local("YuGothic-Medium"), local("Yu Gothic Medium"), local("YuGothic-Regular");
+}
+
+@font-face {
+  font-family: "MyYuGothicM";
+  font-weight: bold;
+
+  src: local("YuGothic-Bold"), local("Yu Gothic");
+}
+
+/* Sass Document */
+* {
+  box-sizing: border-box; 
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-style: normal;
+  font-weight: normal;
+  font-weight: inherit;
+  text-decoration: none;
+  vertical-align: baseline;
+  list-style: none;
+  border: 0;
+}
+
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  height: 100%; 
+  font-size: 62.5%;
+}
+
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: 10px;
+  font-size: 1.0rem;
+  line-height: 1;
+  text-align: center;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+  word-wrap: break-word;
+
+          text-size-adjust: 100%;
+  -webkit-font-kerning: normal;
+          font-kerning: normal;
+}
+
+article,
+aside,
+dialog,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section {
+  display: block;
+}
+
+audio,
+canvas,
+video,
+progress {
+  display: inline-block;
+}
+
+canvas {
+  vertical-align: bottom;
+}
+
+br,
+hr {
+  display: block;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+table {
+  border-spacing: 0; 
+  border-collapse: collapse;
+}
+
+input,
+select {
+  vertical-align: middle;
+}
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+button,
+input {
+  overflow: visible;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+progress {
+  vertical-align: baseline;
+}
+
+textarea {
+  overflow: auto;
+}
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+[type="search"] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+template {
+  display: none;
+}
+
+[hidden] {
+  display: none;
+}
+
+a {
+  cursor: pointer;
+}
+
+/*
+#overview
+base
+
+site common base style.
+
+*/
+/*
+#styleguide
+link
+
+commom link style.
+
+```
+<a href="">title01</a>
+```
+
+*/
+html {
+  font-size: 14px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic ProN", MyYuGothicM, YuGothic, メイリオ, Meiryo, "Noto Sans Japanese", "Noto Sans CJK JP", sans-serif;
+  font-size: 14px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #3f3a39;
+  background-color: #fff;
+
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-font-feature-settings: "pwid";
+          font-feature-settings: "pwid";
+}
+.safari body {
+  -webkit-font-feature-settings: "pkna";
+          font-feature-settings: "pkna";
+}
+.ie body {
+  font-family: "Helvetica", Meiryo, sans-serif;
+}
+
+a {
+  color: #d6101c;
+  cursor: pointer; 
+  transition: .25s;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  padding: 0; 
+  margin: 1em auto;
+  border: 0;
+  border-top: 1px solid #3f3a39;
+}
+
+input,
+button,
+textarea,
+select {
+  -webkit-appearance: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  outline: none; 
+
+     -moz-appearance: none;
+          appearance: none;
+}
+
+::-moz-selection {
+  color: #3f3a39; 
+  background: #00a0e9;
+}
+
+::selection {
+  color: #3f3a39; 
+  background: #00a0e9;
+}
+
+.wrap {
+  overflow: hidden;
+}
+
+*[class^=fn-] {
+  text-align: left;
+}
