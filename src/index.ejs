@@ -47,8 +47,31 @@ var page = {
 
       <main class="main <% if(page.modifier) { %> main--<%= page.modifier %><% } %>" id="main">
 
-          <div id="app">{{ message }}</div>
-          <canvas id="canvas" data-src="<%= path.img %>test/01.jpg" width="800" height="360" style="background-color:#FFFFFF;"></canvas>
+          <section class="hero is-bold">
+              <div class="hero-body">
+                  <div class="container">
+                      <h1 class="title">
+                          canvas lab
+                      </h1>
+                      <h2 class="subtitle">
+                          This repository is an experiment of interactive coding using a canvas.
+                      </h2>
+                  </div>
+              </div>
+          </section>
+
+
+          <div class="container">
+              <div class="columns">
+
+                  <%- include(path.re +'common/parts/_sidebar', {page:page, path:path}) %>
+
+
+                  <div class="column is-three-quarters">
+                  </div>
+
+              </div>
+          </div>
 
       </main>
 <!-- footer -->

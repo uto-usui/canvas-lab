@@ -1,0 +1,197 @@
+<%
+// path function begin
+// - - - - - - - - - - - - - - - - - - - - - - - -
+var absolutePath = data.domain + filename.split(data.developDir)[filename.split(data.developDir).length -1].replace('index.ejs','').replace('.ejs','.html');
+var relativePath = '../'.repeat([absolutePath.replace(data.domain,'').split('/').length -1]);
+
+%><%- include(relativePath +'common/_path', {absolutePath:absolutePath, relativePath:relativePath})
+%><%
+//
+var path = pagePath();
+// - - - - - - - - - - - - - - - - - - - - - - - -
+// path function end
+//
+//
+// page info
+// - - - - - - - - - - - - - - - - - - - - - - - -
+var page = {
+  title: 'mosaic',
+  desc: '',
+  ogp: {
+    image: '',
+    type: 'website'
+  },
+  singleCss: [],
+  singleJs: [],
+  modifier: 'mosaic'
+};
+%><%
+
+
+
+
+
+  // = = = = = = = = = = = = = = = = = = = =
+  //
+  // html begin
+  //
+  // = = = = = = = = = = = = = = = = = = = =
+
+
+
+
+
+%><%- include(path.re +'common/parts/_head', {page:page, path:path}) %>
+<!-- header -->
+<%- include(path.re +'common/parts/_header', {page:page, path:path}) %>
+
+        <main class="main <% if(page.modifier) { %> main--<%= page.modifier %><% } %>" id="main">
+
+          <section class="hero is-bold">
+              <div class="hero-body">
+                  <div class="container">
+                      <h1 class="title">
+                          mosaic
+                      </h1>
+                      <h2 class="subtitle">
+                          Mosaic the image.
+                      </h2>
+                  </div>
+              </div>
+          </section>
+
+
+          <div class="container">
+              <div class="columns">
+
+                  <%- include(path.re +'common/parts/_sidebar', {page:page, path:path}) %>
+
+
+                  <div class="column is-three-quarters">
+                      <div class="box">
+                          <canvas id="canvas" data-src="<%= path.img %>test/01.jpg" width="600" height="600"></canvas>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+
+        </main>
+
+<script>
+  /**
+   * canvasのdata-src属性の画像のピクセルデータからモザイクを描画する
+   * @param mosaicSize {number}
+   */
+  const mosaicImage = (target, mosaicSize = 20) => {
+
+    let canvas = document.getElementById(target),
+        _canvas = document.createElement('canvas');
+
+    if (!canvas || !canvas.getContext) {
+
+      return false;
+
+    }
+
+    /**
+     * 画像情報からモザイクを描画する
+     */
+    const createMosaic = (context, width, height, size, data) => {
+
+      for (let y = 0; y < height; y += size) {
+
+        for (let x = 0; x < width; x += size) {
+
+          /**
+           * r,g,b,a の順で格納されている値を取り出す
+           */
+          let cR = data.data[(y * width + x) * 4],
+              cG = data.data[(y * width + x) * 4 + 1],
+              cB = data.data[(y * width + x) * 4 + 2];
+
+          context.fillStyle = `rgb(${cR},${cG},${cB})`;
+          context.fillRect(x, y, x + size, y + size);
+
+        }
+
+      }
+
+    };
+
+    /**
+     * カンバスに描画
+     */
+    const draw = (_context, imageData, context) => {
+
+      createMosaic(_context, _canvas.width, _canvas.height, mosaicSize, imageData);
+      context.drawImage(_canvas, 0, 0);
+
+    };
+
+
+    const init = () => {
+
+      let context = canvas.getContext('2d');
+
+      /**
+       * 画像をセット
+       */
+      let img = new Image();
+      img.src = canvas.getAttribute('data-src');
+
+      /**
+       * 画像のロードを待って
+       */
+      img.onload = () => {
+
+        let _context = _canvas.getContext('2d'),
+            imageData;
+
+        /**
+         * 画像とカンバスのサイズを合わせる
+         */
+        _canvas.width = img.width;
+        _canvas.height = img.height;
+
+        _context.drawImage(img, 0, 0);
+
+        /**
+         * canvasのピクセルデータのオブジェクト
+         * 左から右に、 r, g, b, a の順で色情報が格納されている
+         */
+        imageData = _context.getImageData(0, 0, _canvas.width, _canvas.height);
+
+        draw(_context, imageData, context);
+
+      };
+
+    };
+    init();
+
+  };
+
+  /**
+   * 対象のカンバス, モザイクのサイズ
+   */
+  mosaicImage('canvas', 20);
+</script>
+
+<!-- footer -->
+<%- include(path.re +'common/parts/_footer', {page:page, path:path}) %><%
+
+
+
+
+
+  // = = = = = = = = = = = = = = = = = = = =
+  //
+  // html end
+  //
+  // = = = = = = = = = = = = = = = = = = = =
+
+
+
+
+
+%>

@@ -1,13 +1,31 @@
 
-      <footer class="footer<% if(page.modifier) { %> footer--<%= page.modifier %><% } %>" id="footer">
+        <div class="section"></div>
 
+        <footer class="footer<% if(page.modifier) { %> footer--<%= page.modifier %><% } %>" id="footer">
 
+          <div class="container">
+              <div class="content has-text-centered">
+                  <p>
+                      by <a href="https://uto-usui.com/">uto usui</a>. The source code is licensed
+                      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+                      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+                  </p>
+                  <p>
+                      <a href="https://twitter.com/uto_ao">
+                          <span class="icon is-small"><i class="fa fa-twitter"></i></span>
+                      </a>
+                      <a href="https://github.com/uto-usui/">
+                          <span class="icon is-small"><i class="fa fa-github"></i></span>
+                      </a>
+                  </p>
+              </div>
+          </div>
 
-      </footer>
+        </footer>
     </div>
 
 
-  <script src="<%= path.js %>index.min.js"></script>
+  <script src="<%= path.js %>index.min.js" async defer></script>
   <%
     if(page.singleJs) {
     page.singleJs.forEach(function(data) {
