@@ -1,0 +1,186 @@
+<%
+// path function begin
+// - - - - - - - - - - - - - - - - - - - - - - - -
+var absolutePath = data.domain + filename.split(data.developDir)[filename.split(data.developDir).length -1].replace('index.ejs','').replace('.ejs','.html');
+var relativePath = '../'.repeat([absolutePath.replace(data.domain,'').split('/').length -1]);
+
+%><%- include(relativePath +'common/_path', {absolutePath:absolutePath, relativePath:relativePath})
+%><%
+//
+var path = pagePath();
+// - - - - - - - - - - - - - - - - - - - - - - - -
+// path function end
+//
+//
+// page info
+// - - - - - - - - - - - - - - - - - - - - - - - -
+var page = {
+  title: 'mosaic',
+  desc: '',
+  ogp: {
+    image: '',
+    type: 'website'
+  },
+  singleCss: [],
+  singleJs: [],
+  modifier: 'mosaic'
+};
+%><%
+
+
+
+
+
+  // = = = = = = = = = = = = = = = = = = = =
+  //
+  // html begin
+  //
+  // = = = = = = = = = = = = = = = = = = = =
+
+
+
+
+
+%><%- include(path.re +'common/parts/_head', {page:page, path:path}) %>
+<!-- header -->
+<%- include(path.re +'common/parts/_header', {page:page, path:path}) %>
+
+        <main class="main <% if(page.modifier) { %> main--<%= page.modifier %><% } %>" id="main">
+
+          <section class="hero is-bold">
+              <div class="hero-body">
+                  <div class="container">
+                      <h1 class="title">
+                          wave
+                      </h1>
+                      <h2 class="subtitle">
+                          wave animation
+                      </h2>
+                  </div>
+              </div>
+          </section>
+
+
+          <div class="container">
+              <div class="columns">
+
+                  <%- include(path.re +'common/parts/_sidebar', {page:page, path:path}) %>
+
+
+                  <div class="column is-three-quarters">
+                      <div class="box">
+                          <canvas id="canvas" data-src="<%= path.img %>test/01.jpg" width="600" height="600"></canvas>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+
+        </main>
+
+
+<script>
+  /**
+   * 画像を抽出して、波打たせるようなアニメーション
+   */
+  const waveAnim = () => {
+
+    let canvas  = document.getElementById('canvas'),
+        ctx     = canvas.getContext('2d'),
+        canvasW = canvas.width,
+        canvasH = canvas.height,
+        img     = new Image();
+
+    img.src = canvas.getAttribute('data-src');
+
+    /**
+     * 停止させるためのid
+     */
+    let animId;
+
+    /**
+     * 読み込み位置を管理する
+     */
+    let x = 1,
+        r = -1;
+
+    /**
+     * 画像の横1px縦いっぱいの色情報で塗りつぶす
+     */
+    const wave = () => {
+
+      /**
+       * 反転させる
+       */
+      x == canvasW ? r = -1 : 0 == x && (r = 1);
+
+      ctx.drawImage(img, x, 0, 1, canvasH, -x, 0, canvasW + x, canvasH);
+      x += r;
+
+      /**
+       * setInterval で速さを決めたり可変させてもいい
+       */
+      animId = requestAnimationFrame(wave);
+
+    };
+    img.onload = wave;
+
+
+    /**
+     * 波打ちながら元画像が現れる
+     */
+    const show = () => {
+
+      ctx.drawImage(img, x, 0, 1, canvasH, x, 0, canvasW, canvasH);
+      x < canvasW ? (x++) : cancelAnimationFrame(animId);
+
+      animId = requestAnimationFrame(show);
+
+    };
+
+
+    /**
+     * アニメーションのリセット
+     */
+    const reset = () => {
+
+      cancelAnimationFrame(animId);
+      ctx.clearRect(0, 0, canvasW, canvasH);
+      x = 1;
+      r = -1;
+
+    };
+
+    /**
+     * canvas に触れると画像が現れる
+     */
+    canvas.addEventListener('mouseover', () => {
+
+      reset();
+      show();
+
+    });
+
+  };
+
+  waveAnim();
+</script>
+
+<!-- footer -->
+<%- include(path.re +'common/parts/_footer', {page:page, path:path}) %><%
+
+
+
+
+
+  // = = = = = = = = = = = = = = = = = = = =
+  //
+  // html end
+  //
+  // = = = = = = = = = = = = = = = = = = = =
+
+
+
+
+
+%>

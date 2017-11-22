@@ -9,47 +9,47 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="author" content="Okiniirinoao - Yuto Usui">
   <!-- title description -->
-  <title>HOME | site title</title>
-  <meta name="description" content="This is home">
+  <title>mosaic | site title</title>
+  <meta name="description" content="">
   <!-- sp user agent function disable-->
   <meta name="format-detection" content="telephone=no,address=no,email=no"><!-- ogp -->
-  <meta name="twitter:title" content="HOME | site title">
+  <meta name="twitter:title" content="mosaic | site title">
   <meta name="twitter:image" content="screenshot.png">
-  <meta name="twitter:card" content="summary_large_image"><meta property="og:title" content="HOME | site title">
-  <meta property="og:description" content="This is home">
-  <meta property="og:url" content="http://my-special-url.com/">
+  <meta name="twitter:card" content="summary_large_image"><meta property="og:title" content="mosaic | site title">
+  <meta property="og:description" content="">
+  <meta property="og:url" content="http://my-special-url.com/animation/wave/">
   <meta property="og:image" content="screenshot.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="site title">
   <!-- favicon -->
-  <link rel="shortcut icon" href="assets/images/">
-  <link rel="apple-touch-icon-precomposed" href="assets/images/">
+  <link rel="shortcut icon" href="../../assets/images/">
+  <link rel="apple-touch-icon-precomposed" href="../../assets/images/">
   <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/main.min.css?var=20161111">
+  <link rel="stylesheet" href="../../assets/css/main.min.css?var=20161111">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <!-- header -->
-  <body class="body body--home">
+  <body class="body body--mosaic">
 
 
-    <div class="wrap wrap--home" id="wrap">
+    <div class="wrap wrap--mosaic" id="wrap">
 
 
 
 
 
-      <main class="main  main--home" id="main">
+        <main class="main  main--mosaic" id="main">
 
           <section class="hero is-bold">
               <div class="hero-body">
                   <div class="container">
                       <h1 class="title">
-                          canvas lab
+                          wave
                       </h1>
                       <h2 class="subtitle">
-                          This repository is an experiment of interactive coding using a canvas.
+                          wave animation
                       </h2>
                   </div>
               </div>
@@ -67,13 +67,13 @@
                             Menu
                         </p>
                         <ul class="menu-list">
-                            <li><a href="mosaic/">mosaic</a></li>
+                            <li><a href="../../mosaic/">mosaic</a></li>
                         </ul>
                         <ul class="menu-list">
                             <li>
-                                <a href="animation/">animation</a>
+                                <a href="../../animation/">animation</a>
                                 <ul>
-                                    <li><a href="animation/wave/">wave</a></li>
+                                    <li><a href="../../animation/wave/">wave</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -83,17 +83,109 @@
 
 
                   <div class="column is-three-quarters">
+                      <div class="box">
+                          <canvas id="canvas" data-src="../../assets/images/test/01.jpg" width="600" height="600"></canvas>
+                      </div>
                   </div>
 
               </div>
           </div>
 
-      </main>
+        </main>
+
+
+<script>
+  /**
+   * 画像を抽出して、波打たせるようなアニメーション
+   */
+  const waveAnim = () => {
+
+    let canvas  = document.getElementById('canvas'),
+        ctx     = canvas.getContext('2d'),
+        canvasW = canvas.width,
+        canvasH = canvas.height,
+        img     = new Image();
+
+    img.src = canvas.getAttribute('data-src');
+
+    /**
+     * 停止させるためのid
+     */
+    let animId;
+
+    /**
+     * 読み込み位置を管理する
+     */
+    let x = 1,
+        r = -1;
+
+    /**
+     * 画像の横1px縦いっぱいの色情報で塗りつぶす
+     */
+    const wave = () => {
+
+      /**
+       * 反転させる
+       */
+      x == canvasW ? r = -1 : 0 == x && (r = 1);
+
+      ctx.drawImage(img, x, 0, 1, canvasH, -x, 0, canvasW + x, canvasH);
+      x += r;
+
+      /**
+       * setInterval で速さを決めたり可変させてもいい
+       */
+      animId = requestAnimationFrame(wave);
+
+    };
+    img.onload = wave;
+
+
+    /**
+     * 波打ちながら元画像が現れる
+     */
+    const show = () => {
+
+      ctx.drawImage(img, x, 0, 1, canvasH, x, 0, canvasW, canvasH);
+      x < canvasW ? (x++) : cancelAnimationFrame(animId);
+
+      animId = requestAnimationFrame(show);
+
+    };
+
+
+    /**
+     * アニメーションのリセット
+     */
+    const reset = () => {
+
+      cancelAnimationFrame(animId);
+      ctx.clearRect(0, 0, canvasW, canvasH);
+      x = 1;
+      r = -1;
+
+    };
+
+    /**
+     * canvas に触れると画像が現れる
+     */
+    canvas.addEventListener('mouseover', () => {
+
+      reset();
+      show();
+
+    });
+
+  };
+
+  waveAnim();
+</script>
+
 <!-- footer -->
 
         <div class="section"></div>
 
-        <footer class="footer footer--home" id="footer">
+        <footer class="footer footer--mosaic" id="footer">
 
           <div class="container">
               <div class="content has-text-centered">
@@ -117,7 +209,7 @@
     </div>
 
 
-  <script src="assets/js/index.min.js" async defer></script>
+  <script src="../../assets/js/index.min.js" async defer></script>
   
 </body>
 

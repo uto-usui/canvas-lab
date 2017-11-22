@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- viewport -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <!-- encoding -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="author" content="Okiniirinoao - Yuto Usui">
+  <!-- title description -->
+  <title>mosaic | site title</title>
+  <meta name="description" content="">
+  <!-- sp user agent function disable-->
+  <meta name="format-detection" content="telephone=no,address=no,email=no"><!-- ogp -->
+  <meta name="twitter:title" content="mosaic | site title">
+  <meta name="twitter:image" content="screenshot.png">
+  <meta name="twitter:card" content="summary_large_image"><meta property="og:title" content="mosaic | site title">
+  <meta property="og:description" content="">
+  <meta property="og:url" content="http://my-special-url.com/mosaic/">
+  <meta property="og:image" content="screenshot.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="site title">
+  <!-- favicon -->
+  <link rel="shortcut icon" href="../assets/images/">
+  <link rel="apple-touch-icon-precomposed" href="../assets/images/">
+  <!-- CSS -->
+  <link rel="stylesheet" href="../assets/css/main.min.css?var=20161111">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<!-- header -->
+  <body class="body body--mosaic">
+
+
+    <div class="wrap wrap--mosaic" id="wrap">
+
+
+
+
+
+        <main class="main  main--mosaic" id="main">
+
+          <section class="hero is-bold">
+              <div class="hero-body">
+                  <div class="container">
+                      <h1 class="title">
+                          mosaic
+                      </h1>
+                      <h2 class="subtitle">
+                          Mosaic the image.
+                      </h2>
+                  </div>
+              </div>
+          </section>
+
+
+          <div class="container">
+              <div class="columns">
+
+                  
+            <div class="column">
+                <div class="section">
+                    <aside class="menu">
+                        <p class="menu-label">
+                            Menu
+                        </p>
+                        <ul class="menu-list">
+                            <li><a href="../mosaic/">mosaic</a></li>
+                        </ul>
+                        <ul class="menu-list">
+                            <li>
+                                <a href="../animation/">animation</a>
+                                <ul>
+                                    <li><a href="../animation/wave/">wave</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </aside>
+                </div>
+            </div>
+
+
+                  <div class="column is-three-quarters">
+                      <div class="box">
+                          <canvas id="canvas" data-src="../assets/images/test/01.jpg" width="600" height="600"></canvas>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+
+        </main>
+
+<script>
+  /**
+   * canvasのdata-src属性の画像のピクセルデータからモザイクを描画する
+   * @param mosaicSize {number}
+   */
+  const mosaicImage = (target, mosaicSize = 20) => {
+
+    let canvas = document.getElementById(target),
+        _canvas = document.createElement('canvas');
+
+    if (!canvas || !canvas.getContext) {
+
+      return false;
+
+    }
+
+    /**
+     * 画像情報からモザイクを描画する
+     */
+    const createMosaic = (context, width, height, size, data) => {
+
+      for (let y = 0; y < height; y += size) {
+
+        for (let x = 0; x < width; x += size) {
+
+          /**
+           * r,g,b,a の順で格納されている値を取り出す
+           */
+          let cR = data.data[(y * width + x) * 4],
+              cG = data.data[(y * width + x) * 4 + 1],
+              cB = data.data[(y * width + x) * 4 + 2];
+
+          context.fillStyle = `rgb(${cR},${cG},${cB})`;
+          context.fillRect(x, y, x + size, y + size);
+
+        }
+
+      }
+
+    };
+
+    /**
+     * カンバスに描画
+     */
+    const draw = (_context, imageData, context) => {
+
+      createMosaic(_context, _canvas.width, _canvas.height, mosaicSize, imageData);
+      context.drawImage(_canvas, 0, 0);
+
+    };
+
+
+    const init = () => {
+
+      let context = canvas.getContext('2d');
+
+      /**
+       * 画像をセット
+       */
+      let img = new Image();
+      img.src = canvas.getAttribute('data-src');
+
+      /**
+       * 画像のロードを待って
+       */
+      img.onload = () => {
+
+        let _context = _canvas.getContext('2d'),
+            imageData;
+
+        /**
+         * 画像とカンバスのサイズを合わせる
+         */
+        _canvas.width = img.width;
+        _canvas.height = img.height;
+
+        _context.drawImage(img, 0, 0);
+
+        /**
+         * canvasのピクセルデータのオブジェクト
+         * 左から右に、 r, g, b, a の順で色情報が格納されている
+         */
+        imageData = _context.getImageData(0, 0, _canvas.width, _canvas.height);
+
+        draw(_context, imageData, context);
+
+      };
+
+    };
+    init();
+
+  };
+
+  /**
+   * 対象のカンバス, モザイクのサイズ
+   */
+  mosaicImage('canvas', 20);
+</script>
+
+<!-- footer -->
+
+        <div class="section"></div>
+
+        <footer class="footer footer--mosaic" id="footer">
+
+          <div class="container">
+              <div class="content has-text-centered">
+                  <p>
+                      by <a href="https://uto-usui.com/">uto usui</a>. The source code is licensed
+                      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+                      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+                  </p>
+                  <p>
+                      <a href="https://twitter.com/uto_ao">
+                          <span class="icon is-small"><i class="fa fa-twitter"></i></span>
+                      </a>
+                      <a href="https://github.com/uto-usui/">
+                          <span class="icon is-small"><i class="fa fa-github"></i></span>
+                      </a>
+                  </p>
+              </div>
+          </div>
+
+        </footer>
+    </div>
+
+
+  <script src="../assets/js/index.min.js" async defer></script>
+  
+</body>
+
+</html>
+
