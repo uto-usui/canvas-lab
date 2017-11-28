@@ -1,0 +1,148 @@
+<%
+// path function begin
+// - - - - - - - - - - - - - - - - - - - - - - - -
+var absolutePath = data.domain + filename.split(data.developDir)[filename.split(data.developDir).length -1].replace('index.ejs','').replace('.ejs','.html');
+var relativePath = '../'.repeat([absolutePath.replace(data.domain,'').split('/').length -1]);
+
+%><%- include(relativePath +'common/_path', {absolutePath:absolutePath, relativePath:relativePath})
+%><%
+//
+var path = pagePath();
+// - - - - - - - - - - - - - - - - - - - - - - - -
+// path function end
+//
+//
+// page info
+// - - - - - - - - - - - - - - - - - - - - - - - -
+var page = {
+  title: 'processing ameba',
+  desc: '',
+  ogp: {
+    image: '',
+    type: 'website'
+  },
+  singleCss: [],
+  singleJs: [],
+  modifier: 'processing'
+};
+%><%
+
+
+
+
+
+  // = = = = = = = = = = = = = = = = = = = =
+  //
+  // html begin
+  //
+  // = = = = = = = = = = = = = = = = = = = =
+
+
+
+
+
+%><%- include(path.re +'common/parts/_head', {page:page, path:path}) %>
+<!-- header -->
+<%- include(path.re +'common/parts/_header', {page:page, path:path}) %>
+
+        <main class="main <% if(page.modifier) { %> main--<%= page.modifier %><% } %>" id="main">
+
+          <section class="hero is-bold">
+              <div class="hero-body">
+                  <div class="container">
+                      <h1 class="title">
+                          processing.js ameba
+                      </h1>
+                      <h2 class="subtitle">
+                          ameba motion
+                      </h2>
+                  </div>
+              </div>
+          </section>
+
+
+          <div class="container">
+              <div class="columns">
+
+                  <%- include(path.re +'common/parts/_sidebar', {page:page, path:path}) %>
+
+
+                  <div class="column is-three-quarters">
+                      <div class="box">
+                          <canvas id="canvas"  width="600" height="600"></canvas>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+
+        </main>
+
+<script src="<%= path.js %>processing.min.js"></script>
+<script type="application/processing" data-processing-target="canvas">
+void setup() {
+
+  size(500, 500);
+  smooth();
+  background(150);
+  stroke(0, 50);
+  fill(255, 200);
+
+}
+
+void draw () {
+
+  background(150);
+
+  frameRate(2);
+
+  float xstart = random(10);
+  float ynoise = random(10);
+
+  translate(width/2, height/2, 0);
+
+  for (float y = -(height/8); y <= (height/8); y+=3) {
+
+   ynoise += 0.04;
+   float xnoise = xstart;
+
+   for (float x = -(width/8); x <= (width/8); x+=3) {
+
+    xnoise += 0.04;
+    drawPoint(x, y, noise(xnoise, ynoise));
+
+   }
+
+  }
+
+}
+
+void drawPoint (float x, float y, float noiseFactor) {
+
+  pushMatrix();
+  translate(x * noiseFactor * 4, y * noiseFactor * 4, -y);
+  float edgeSize = noiseFactor * 30;
+  ellipse(0, 0, edgeSize, edgeSize);
+  popMatrix();
+
+}
+</script>
+
+<!-- footer -->
+<%- include(path.re +'common/parts/_footer', {page:page, path:path}) %><%
+
+
+
+
+
+  // = = = = = = = = = = = = = = = = = = = =
+  //
+  // html end
+  //
+  // = = = = = = = = = = = = = = = = = = = =
+
+
+
+
+
+%>
